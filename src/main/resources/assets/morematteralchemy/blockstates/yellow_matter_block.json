@@ -1,5 +1,5 @@
 {
   "variants": {
-    "": { "model": "morematteralchemy:block/orange_matter_block" }
+    "": { "model": "morematteralchemy:block/yellow_matter_block" }
   }
 }
