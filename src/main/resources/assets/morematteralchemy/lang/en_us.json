@@ -1,0 +1,15 @@
+{
+  "itemGroup.morematteralchemy.items": "More Matter Alchemy",
+  "item.morematteralchemy.orange_matter": "Orange Matter",
+  "item.morematteralchemy.yellow_matter": "Yellow Matter",
+  "item.morematteralchemy.green_matter": "Green Matter",
+  "item.morematteralchemy.blue_matter": "Blue Matter",
+  "item.morematteralchemy.purple_matter": "Purple Matter",
+  "item.morematteralchemy.white_matter": "White Matter",
+  "block.morematteralchemy.orange_matter_block": "Orange Matter Block",
+  "block.morematteralchemy.yellow_matter_block": "Yellow Matter Block",
+  "block.morematteralchemy.green_matter_block": "Green Matter Block",
+  "block.morematteralchemy.blue_matter_block": "Blue Matter Block",
+  "block.morematteralchemy.purple_matter_block": "Purple Matter Block",
+  "block.morematteralchemy.white_matter_block": "White Matter Block"
+}

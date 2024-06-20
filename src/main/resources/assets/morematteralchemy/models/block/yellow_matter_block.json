@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "morematteralchemy:block/yellow_matter_block"
+  }
+}

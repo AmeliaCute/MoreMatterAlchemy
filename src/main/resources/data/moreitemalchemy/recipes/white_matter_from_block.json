@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "  ",
+    " #"
+  ],
+  "key": {
+    "#": {
+      "item": "morematteralchemy:white_matter_block"
+    }
+  },
+  "result": {
+    "item": "morematteralchemy:white_matter",
+    "count": 4
+  }
+}

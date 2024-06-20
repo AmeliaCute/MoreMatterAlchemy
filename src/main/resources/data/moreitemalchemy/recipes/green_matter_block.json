@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "morematteralchemy:green_matter"
+    }
+  },
+  "result": {
+    "item": "morematteralchemy:green_matter_block",
+    "count": 1
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "morematteralchemy",
+  "version": "${version}",
+  "name": "More Matter Alchemy",
+  "description": "Adding more matter to ItemAlchemy",
+  "authors": [
+    "Amelia"
+  ],
+  "contact": {
+    "repo": "https://github.com/MignonPetitXelow/MoreMatterAlchemy"
+  },
+  "license": "MIT",
+  "icon": "assets/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "org.amycute.morematteralchemy.MoreMatterAlchemy"
+    ]
+  },
+  "depends": {
+    "fabricloader": "",
+    "fabric": "*",
+    "minecraft": "*",
+    "itemalchemy":  "*",
+    "mcpitanlib": ">2.2.0"
+  }
+}

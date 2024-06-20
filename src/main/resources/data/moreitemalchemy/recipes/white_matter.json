@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#A#",
+    "###"
+  ],
+  "key": {
+    "A": {
+      "item": "itemalchemy:aeternalis_fuel"
+    },
+    "#": {
+      "item": "morematteralchemy:purple_matter"
+    }
+  },
+  "result": {
+    "item": "morematteralchemy:white_matter",
+    "count": 1
+  }
+}
