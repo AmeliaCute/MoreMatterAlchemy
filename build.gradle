@@ -128,7 +128,7 @@ import com.modrinth.minotaur.dependencies.ModDependency
 modrinth {
     if (System.getenv("MODRINTH_TOKEN") != null) {
         token = System.getenv("MODRINTH_TOKEN")
-        projectId = 'WAITINGFOR'
+        projectId = '40kBiPTu'
         versionNumber = project.mod_version
         uploadFile = remapJar
         gameVersions = ['1.18.2','1.19.2', '1.20.4']
@@ -137,7 +137,8 @@ modrinth {
         changelog = "Meow"
         dependencies = [
                 new ModDependency('P7dR8mSH', 'required'), // Fabric API
-                new ModDependency('uNRoUnGT', 'required')  // MCPitanLibarch
+                new ModDependency('uNRoUnGT', 'required'), // MCPitanLibarch
+                new ModDependency('cfQx2fbQ', 'required'), // Item Alchemy
         ]
     }
 }

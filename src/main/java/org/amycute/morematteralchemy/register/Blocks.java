@@ -1,7 +1,6 @@
 package org.amycute.morematteralchemy.register;
 
 import net.minecraft.block.Block;
-import net.pitan76.itemalchemy.ItemAlchemy;
 import net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.block.CompatibleMaterial;
 import net.pitan76.mcpitanlib.api.block.ExtendBlock;

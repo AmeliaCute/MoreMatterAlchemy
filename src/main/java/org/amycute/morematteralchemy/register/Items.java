@@ -1,7 +1,6 @@
 package org.amycute.morematteralchemy.register;
 
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.ExtendItem;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;

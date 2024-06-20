@@ -1,9 +1,7 @@
 package org.amycute.morematteralchemy.register;
 
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.pitan76.mcpitanlib.api.item.CreativeTabBuilder;
-import org.amycute.morematteralchemy.MoreMatterAlchemy;
 
 import static org.amycute.morematteralchemy.MoreMatterAlchemy.id;
 import static org.amycute.morematteralchemy.MoreMatterAlchemy.registry;
