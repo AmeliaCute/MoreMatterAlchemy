@@ -1,5 +1,6 @@
 package org.amycute.morematteralchemy.register;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.ExtendItem;
@@ -10,8 +11,11 @@ import static org.amycute.morematteralchemy.MoreMatterAlchemy.id;
 import static org.amycute.morematteralchemy.MoreMatterAlchemy.registry;
 
 public class Items {
+    // MATTER
     public static RegistryResult<Item> ORANGE_MATTER, YELLOW_MATTER, GREEN_MATTER, BLUE_MATTER, PURPLE_MATTER, WHITE_MATTER;
     public static RegistryResult<Item> ORANGE_MATTER_BLOCK, YELLOW_MATTER_BLOCK, GREEN_MATTER_BLOCK, BLUE_MATTER_BLOCK, PURPLE_MATTER_BLOCK, WHITE_MATTER_BLOCK;
+
+    public static RegistryResult<Item> WATCH_OF_FLOWING_TIME, PEDESTAL_BLOCK;
 
     public static void init() {
         ORANGE_MATTER = registry.registerItem(id("orange_matter"), () -> new ExtendItem(CompatibleItemSettings.of().addGroup(Groups.ITEMS)));
@@ -27,5 +31,8 @@ public class Items {
         BLUE_MATTER_BLOCK = registry.registerItem(id("blue_matter_block"), () -> ItemUtil.ofBlock(Blocks.BLUE_MATTER_BLOCK.getOrNull(), CompatibleItemSettings.of().addGroup(Groups.ITEMS)));
         PURPLE_MATTER_BLOCK = registry.registerItem(id("purple_matter_block"), () -> ItemUtil.ofBlock(Blocks.PURPLE_MATTER_BLOCK.getOrNull(), CompatibleItemSettings.of().addGroup(Groups.ITEMS)));
         WHITE_MATTER_BLOCK = registry.registerItem(id("white_matter_block"), () -> ItemUtil.ofBlock(Blocks.WHITE_MATTER_BLOCK.getOrNull(), CompatibleItemSettings.of().addGroup(Groups.ITEMS)));
+
+        WATCH_OF_FLOWING_TIME = registry.registerItem(id("watch_of_flowing_time"),() -> new ExtendItem(CompatibleItemSettings.of().addGroup(Groups.ITEMS)));
+        PEDESTAL_BLOCK = registry.registerItem(id("pedestal_block"), () -> ItemUtil.ofBlock(Blocks.PEDESTAL_BLOCK.getOrNull(), CompatibleItemSettings.of().addGroup(Groups.ITEMS)));
     }
 }

@@ -4,8 +4,12 @@ import net.fabricmc.api.ModInitializer;
 import net.minecraft.util.Identifier;
 import net.pitan76.mcpitanlib.api.registry.CompatRegistry;
 import org.amycute.morematteralchemy.register.Blocks;
+import org.amycute.morematteralchemy.register.BlocksEntity;
 import org.amycute.morematteralchemy.register.Groups;
 import org.amycute.morematteralchemy.register.Items;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class MoreMatterAlchemy implements ModInitializer {
 
@@ -20,6 +24,7 @@ public class MoreMatterAlchemy implements ModInitializer {
         Groups.init();
         Blocks.init();
         Items.init();
+        BlocksEntity.init();
 
         registry.allRegister();
     }
