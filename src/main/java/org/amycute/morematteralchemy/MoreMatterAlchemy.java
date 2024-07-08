@@ -8,9 +8,6 @@ import org.amycute.morematteralchemy.register.BlocksEntity;
 import org.amycute.morematteralchemy.register.Groups;
 import org.amycute.morematteralchemy.register.Items;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 public class MoreMatterAlchemy implements ModInitializer {
 
     public static final String MOD_ID = "morematteralchemy";

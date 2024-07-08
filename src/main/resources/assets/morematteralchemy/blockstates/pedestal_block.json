@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "morematteralchemy:block/pedestal_block" }
+  }
+}

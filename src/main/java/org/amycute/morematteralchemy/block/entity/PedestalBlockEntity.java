@@ -3,25 +3,32 @@ package org.amycute.morematteralchemy.block.entity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.model.json.ModelTransformation;
+import net.minecraft.inventory.Inventories;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.pitan76.mcpitanlib.api.block.ExtendBlock;
 import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
 import net.pitan76.mcpitanlib.api.event.tile.TileTickEvent;
 import net.pitan76.mcpitanlib.api.tile.ExtendBlockEntity;
 import net.pitan76.mcpitanlib.api.tile.ExtendBlockEntityTicker;
 import org.amycute.morematteralchemy.register.BlocksEntity;
+import org.amycute.morematteralchemy.register.Items;
 
 import static org.amycute.morematteralchemy.register.Blocks.PEDESTAL_BLOCK;
 
 public class PedestalBlockEntity extends ExtendBlockEntity implements ExtendBlockEntityTicker<PedestalBlockEntity> {
     private boolean hasWatchOfFlowingTime = false;
+    private DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
+
     private static final int TICK_INCREASE_PERCENT = 400;
 
     public PedestalBlockEntity(BlockEntityType<?> type, TileCreateEvent event) {
@@ -32,25 +39,31 @@ public class PedestalBlockEntity extends ExtendBlockEntity implements ExtendBloc
         this(BlocksEntity.PEDESTAL_BLOCK_ENTITY.getOrNull(), event);
     }
 
-    public boolean hasWatchOfFlowingTime() {
-        return hasWatchOfFlowingTime;
-    }
-
-    public void setWatchOfFlowingTime(boolean hasWatchOfFlowingTime) {
-        this.hasWatchOfFlowingTime = hasWatchOfFlowingTime;
-        markDirty();
-    }
-
     @Override
     public void readNbtOverride(NbtCompound tag) {
         super.readNbtOverride(tag);
-        hasWatchOfFlowingTime = tag.getBoolean("HasWatchOfFlowingTime");
+        Inventories.readNbt(tag, inventory);
+        hasWatchOfFlowingTime = tag.getBoolean("hasWatchOfFlowingTime");
     }
 
     @Override
     public void writeNbtOverride(NbtCompound tag) {
         super.writeNbtOverride(tag);
-        tag.putBoolean("HasWatchOfFlowingTime", hasWatchOfFlowingTime);
+        Inventories.writeNbt(tag, inventory);
+
+        ItemStack itemStack = inventory.get(0);
+        if(itemStack.isEmpty() || itemStack.getItem() != Items.WATCH_OF_FLOWING_TIME.getOrNull()) return;
+        tag.putBoolean("hasWatchOfFlowingTime", hasWatchOfFlowingTime);
+    }
+
+    public DefaultedList<ItemStack> getInventory() {
+        return inventory;
+    }
+
+    public void putItemInInventory(ItemStack stack) {
+        inventory.set(0, stack);
+
+        hasWatchOfFlowingTime = stack.getItem() == Items.WATCH_OF_FLOWING_TIME.getOrNull();
     }
 
     @Override
@@ -62,44 +75,45 @@ public class PedestalBlockEntity extends ExtendBlockEntity implements ExtendBloc
         World world = e.world;
         int additionalTicks = (int) (TICK_INCREASE_PERCENT / 100.0 * 20);
 
-        // disable for now because the game crash on 1.18.2+ versions
-        //speedUpRandomTick(world, minPos, maxPos, additionalTicks);
+        speedUpRandomTickNew(world, minPos, maxPos, additionalTicks);
         speedUpBlockEntities(world, minPos, maxPos, additionalTicks);
     }
 
-    private static void speedUpRandomTick(World world, BlockPos minPos, BlockPos maxPos, int tickIncrease) {
-        for (BlockPos blockPos : BlockPos.iterate(minPos, maxPos)) {
-            if (!world.isChunkLoaded(blockPos.getX() >> 4, blockPos.getZ() >> 4)) continue;
-            BlockState blockState = world.getBlockState(blockPos);
+    public static void speedUpRandomTickNew(World world, BlockPos minPos, BlockPos maxPos, int tickIncrease) {
+        if (!(world instanceof ServerWorld worldServer) || !worldServer.isRegionLoaded(minPos, maxPos)) return;
 
+        for(BlockPos blockPos : BlockPos.iterate(minPos, maxPos))
+        {
+            BlockState blockState = worldServer.getBlockState(blockPos);
             Block block = blockState.getBlock();
-            if (block == Blocks.AIR || block == PEDESTAL_BLOCK.getOrNull() || !blockState.hasRandomTicks()) continue;
 
-            for (int i = 0; i < tickIncrease; i++) {
-                blockState.randomTick((ServerWorld) world, blockPos, world.random);
-            }
+            if(!blockState.hasRandomTicks() || block == PEDESTAL_BLOCK.getOrNull()) continue;
+            blockPos = blockPos.toImmutable();
+
+            for(int i = 0; i < tickIncrease; ++i)
+                blockState.randomTick(worldServer, blockPos, world.random);
         }
     }
 
     private static void speedUpBlockEntities(World world, BlockPos minPos, BlockPos maxPos, int tickIncrease) {
-        if (world.isClient()) return;
+        if(!(world instanceof ServerWorld worldServer) || !worldServer.isRegionLoaded(minPos, maxPos)) return;
 
         for (BlockPos blockPos : BlockPos.iterate(minPos, maxPos)) {
-            if (!world.isChunkLoaded(blockPos)) continue;
-
-            BlockEntity blockEntity = world.getBlockEntity(blockPos);
+            BlockEntity blockEntity = (BlockEntity) worldServer.getBlockEntity(blockPos);
             if (blockEntity == null) continue;
 
-            Block block = world.getBlockState(blockPos).getBlock();
+            Block block = worldServer.getBlockState(blockPos).getBlock();
             if(block == PEDESTAL_BLOCK.getOrNull()) continue;
 
             BlockEntityTicker<BlockEntity> ticker = (BlockEntityTicker<BlockEntity>) ((BlockEntityProvider) block).getTicker(world, world.getBlockState(blockPos), blockEntity.getType());
             if (ticker == null) continue;
 
-            for (int i = 0; i < tickIncrease; i++) {
-                ticker.tick(world, blockPos, world.getBlockState(blockPos), blockEntity);
-            }
+            for (int i = 0; i < tickIncrease; i++)
+                ticker.tick(worldServer, blockPos, worldServer.getBlockState(blockPos), blockEntity);
         }
     }
+
+
+
 
 }

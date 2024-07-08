@@ -16,6 +16,9 @@
   "entrypoints": {
     "main": [
       "org.amycute.morematteralchemy.MoreMatterAlchemy"
+    ],
+    "client": [
+      "org.amycute.morematteralchemy.MoreMatterAlchemyClient"
     ]
   },
   "depends": {

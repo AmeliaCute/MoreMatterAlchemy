@@ -8,18 +8,17 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.World;
-import net.pitan76.itemalchemy.tile.AEGUTile;
 import net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.block.ExtendBlock;
 import net.pitan76.mcpitanlib.api.block.ExtendBlockEntityProvider;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.block.BlockUseEvent;
+import net.pitan76.mcpitanlib.api.event.block.OutlineShapeEvent;
 import net.pitan76.mcpitanlib.api.event.block.TileCreateEvent;
 import org.amycute.morematteralchemy.block.entity.PedestalBlockEntity;
-import org.amycute.morematteralchemy.register.Items;
-
-import java.util.logging.Logger;
 
 public class PedestalBlock extends ExtendBlock implements ExtendBlockEntityProvider
 {
@@ -33,6 +32,15 @@ public class PedestalBlock extends ExtendBlock implements ExtendBlockEntityProvi
     }
 
     @Override
+    public VoxelShape getOutlineShape(OutlineShapeEvent event) {
+        return VoxelShapes.union(
+            VoxelShapes.cuboid(0.125, 0, 0.125, 0.875, 0.1875, 0.875),
+            VoxelShapes.cuboid(0.25, 0.6875, 0.25, 0.75, 0.75, 0.75),
+            VoxelShapes.cuboid(0.375, 0.1875, 0.375, 0.625, 0.6875, 0.625)
+        );
+    }
+
+    @Override
     public ActionResult onRightClick(BlockUseEvent e) {
         Player player = e.getPlayer();
         ItemStack itemStack = player.getStackInHand(Hand.MAIN_HAND);
@@ -41,17 +49,19 @@ public class PedestalBlock extends ExtendBlock implements ExtendBlockEntityProvi
         BlockEntity blockEntity = world.getBlockEntity(e.pos);
         if(!(blockEntity instanceof PedestalBlockEntity pedestalBlockEntity)) return ActionResult.PASS;
 
-        if (pedestalBlockEntity.hasWatchOfFlowingTime()) {
-            if (!world.isClient) {
-                player.getInventory().insertStack(new ItemStack(Items.WATCH_OF_FLOWING_TIME.getOrNull()));
-                pedestalBlockEntity.setWatchOfFlowingTime(false);
+        if (!pedestalBlockEntity.getInventory().get(0).isEmpty())
+        {
+            if (!world.isClient)
+            {
+                player.getInventory().insertStack(pedestalBlockEntity.getInventory().get(0).getItem().getDefaultStack());
+                pedestalBlockEntity.putItemInInventory(ItemStack.EMPTY);
             }
-        } else if (itemStack.getItem() == Items.WATCH_OF_FLOWING_TIME.getOrNull()) {
-            if (!world.isClient) {
-                pedestalBlockEntity.setWatchOfFlowingTime(true);
-                if (!player.isCreative()) {
+        } else {
+            if (!world.isClient)
+            {
+                pedestalBlockEntity.putItemInInventory(itemStack);
+                if (!player.isCreative())
                     itemStack.decrement(1);
-                }
             }
         }
 

@@ -5,7 +5,6 @@ import net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.block.CompatibleMaterial;
 import net.pitan76.mcpitanlib.api.block.ExtendBlock;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
-import org.amycute.morematteralchemy.MoreMatterAlchemy;
 import org.amycute.morematteralchemy.block.PedestalBlock;
 
 import static org.amycute.morematteralchemy.MoreMatterAlchemy.id;
